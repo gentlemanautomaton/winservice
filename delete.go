@@ -54,7 +54,7 @@ func Delete(ctx context.Context, name string) error {
 			if err != nil {
 				return err
 			}
-			if exists {
+			if !exists {
 				return nil
 			}
 		}
