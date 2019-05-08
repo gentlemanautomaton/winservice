@@ -1,6 +1,33 @@
 package winservice
 
-import "syscall"
+import (
+	"syscall"
+)
+
+// OpError is the error type usually returned by functions in the winservice
+// package. It describes the operation and service the error relates to.
+//
+// TODO: Consider use of pointer receivers as used in the standard library.
+type OpError struct {
+	Op      string
+	Service string
+	Err     error
+}
+
+// Error returns a string representation of the error.
+func (e OpError) Error() string {
+	s := e.Op + " service"
+	if e.Service != "" {
+		s += " " + e.Service
+	}
+	s += ": " + e.Err.Error()
+	return s
+}
+
+// Unwrap returns the next error in the error chain.
+func (e OpError) Unwrap() error {
+	return e.Err
+}
 
 const (
 	// ErrAccessDenied is returned when the calling process has insufficient

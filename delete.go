@@ -16,7 +16,7 @@ import (
 func Delete(ctx context.Context, name string) error {
 	m, err := mgr.Connect()
 	if err != nil {
-		return err
+		return OpError{Op: "delete", Service: name, Err: err}
 	}
 	defer m.Disconnect()
 
@@ -29,13 +29,13 @@ func Delete(ctx context.Context, name string) error {
 	case ErrServiceDoesNotExist:
 		return nil
 	default:
-		return err
+		return OpError{Op: "delete", Service: name, Err: err}
 	}
 
 	// Return early if the service has already dissolved
 	exists, err := serviceExists(m, name)
 	if err != nil {
-		return err
+		return OpError{Op: "delete", Service: name, Err: err}
 	}
 	if !exists {
 		return nil
@@ -52,7 +52,7 @@ func Delete(ctx context.Context, name string) error {
 		case <-ticker.C:
 			exists, err := serviceExists(m, name)
 			if err != nil {
-				return err
+				return OpError{Op: "delete", Service: name, Err: err}
 			}
 			if !exists {
 				return nil

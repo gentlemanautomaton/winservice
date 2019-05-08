@@ -10,7 +10,7 @@ import (
 func Exists(name string) (bool, error) {
 	m, err := mgr.Connect()
 	if err != nil {
-		return false, err
+		return false, OpError{Op: "check", Service: name, Err: err}
 	}
 	defer m.Disconnect()
 

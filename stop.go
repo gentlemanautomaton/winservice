@@ -15,11 +15,15 @@ import (
 func Stop(ctx context.Context, name string) error {
 	m, err := mgr.Connect()
 	if err != nil {
-		return err
+		return OpError{Op: "stop", Service: name, Err: err}
 	}
 	defer m.Disconnect()
 
-	return stopService(ctx, m, name)
+	if err := stopService(ctx, m, name); err != nil {
+		return OpError{Op: "stop", Service: name, Err: err}
+	}
+
+	return nil
 }
 
 func stopService(ctx context.Context, m *mgr.Mgr, name string) error {
