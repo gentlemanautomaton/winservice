@@ -69,6 +69,10 @@ const (
 	// ErrServiceNotActive is returned when a service is not running.
 	ErrServiceNotActive = syscall.Errno(0x00000426) // ERROR_SERVICE_NOT_ACTIVE
 
+	// ErrServiceMarkedForDeletion is returned when a service has already been
+	// deleted but its removal is incomplete until the next restart.
+	ErrServiceMarkedForDeletion = syscall.Errno(0x00000430) // ERROR_SERVICE_MARKED_FOR_DELETE
+
 	// ErrShutdownInProgress is returned when an action cannot be taken on a
 	// service because the system is shutting down.
 	ErrShutdownInProgress = syscall.Errno(0x0000045B) // ERROR_SHUTDOWN_IN_PROGRESS

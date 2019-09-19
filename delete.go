@@ -12,7 +12,9 @@ import (
 //
 // Delete will attempt to stop the service first if it is running.
 //
-// Delete returns without error if the service doesn't exist.
+// Delete returns without error if the service doesn't exist. If the service
+// has already been marked for deletion it returns an OpError that wraps
+// ErrServiceMarkedForDeletion.
 func Delete(ctx context.Context, name string) error {
 	m, err := mgr.Connect()
 	if err != nil {
