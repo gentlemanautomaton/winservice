@@ -24,12 +24,13 @@ func Delete(ctx context.Context, name string) error {
 	stopService(ctx, m, name)
 
 	// Try to delete the service
-	switch deleteService(m, name) {
-	case nil:
-	case ErrServiceDoesNotExist:
-		return nil
-	default:
-		return OpError{Op: "delete", Service: name, Err: err}
+	if err := deleteService(m, name); err != nil {
+		switch err {
+		case ErrServiceDoesNotExist:
+			return nil
+		default:
+			return OpError{Op: "delete", Service: name, Err: err}
+		}
 	}
 
 	// Return early if the service has already dissolved

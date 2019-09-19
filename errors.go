@@ -20,7 +20,11 @@ func (e OpError) Error() string {
 	if e.Service != "" {
 		s += " " + e.Service
 	}
-	s += ": " + e.Err.Error()
+	if e.Err != nil {
+		s += ": " + e.Err.Error()
+	} else {
+		s += ": unexpected nil error"
+	}
 	return s
 }
 
@@ -58,8 +62,8 @@ const (
 	// exist.
 	ErrServiceDoesNotExist = syscall.Errno(0x00000424) // ERROR_SERVICE_DOES_NOT_EXIST
 
-	// ErrServiceCannotAcceptControl is returned when a service is not in a condition to
-	// accept a particular control code.
+	// ErrServiceCannotAcceptControl is returned when a service is not in a
+	// condition to accept a particular control code.
 	ErrServiceCannotAcceptControl = syscall.Errno(0x00000425) // ERROR_SERVICE_CANNOT_ACCEPT_CTRL
 
 	// ErrServiceNotActive is returned when a service is not running.
