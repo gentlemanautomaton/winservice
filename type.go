@@ -12,6 +12,7 @@ func (t Type) Apply(conf *Config) {
 // Windows service types.
 //
 // https://docs.microsoft.com/en-us/windows/desktop/api/winsvc/nf-winsvc-createservicew
+// https://docs.microsoft.com/en-us/windows/win32/api/winsvc/ns-winsvc-service_status
 const (
 	KernelDriver        Type = 0x00000001 // SERVICE_KERNEL_DRIVER
 	FileSystemDriver    Type = 0x00000002 // SERVICE_FILE_SYSTEM_DRIVER
