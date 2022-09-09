@@ -1,8 +1,9 @@
 package winservice
 
 import (
-	"strings"
+	"syscall"
 
+	"golang.org/x/sys/windows"
 	"golang.org/x/sys/windows/svc/mgr"
 )
 
@@ -18,16 +19,16 @@ func Exists(name string) (bool, error) {
 }
 
 func serviceExists(m *mgr.Mgr, name string) (bool, error) {
-	services, err := m.ListServices()
+	pname, err := syscall.UTF16PtrFromString(name)
 	if err != nil {
 		return false, err
 	}
 
-	for _, service := range services {
-		if strings.EqualFold(name, service) {
-			return true, nil
-		}
+	h, err := windows.OpenService(m.Handle, pname, windows.SERVICE_QUERY_STATUS)
+	if err != nil {
+		return false, err
 	}
+	defer windows.CloseServiceHandle(h)
 
-	return false, nil
+	return true, nil
 }
