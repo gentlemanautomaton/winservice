@@ -26,6 +26,9 @@ func serviceExists(m *mgr.Mgr, name string) (bool, error) {
 
 	h, err := windows.OpenService(m.Handle, pname, windows.SERVICE_QUERY_STATUS)
 	if err != nil {
+		if err == ErrServiceDoesNotExist {
+			return false, nil
+		}
 		return false, err
 	}
 	defer windows.CloseServiceHandle(h)
