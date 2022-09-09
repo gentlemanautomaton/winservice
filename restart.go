@@ -11,7 +11,7 @@ import (
 // It returns an error if either command fails or the context is cancelled.
 //
 // If the service is not already running this is equivalent to calling Start.
-func Retart(ctx context.Context, name string) error {
+func Restart(ctx context.Context, name string) error {
 	m, err := mgr.Connect()
 	if err != nil {
 		return OpError{Op: "start", Service: name, Err: err}
