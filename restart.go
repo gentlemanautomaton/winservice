@@ -14,7 +14,7 @@ import (
 func Restart(ctx context.Context, name string) error {
 	m, err := mgr.Connect()
 	if err != nil {
-		return OpError{Op: "start", Service: name, Err: err}
+		return OpError{Op: "restart", Service: name, Err: err}
 	}
 	defer m.Disconnect()
 
